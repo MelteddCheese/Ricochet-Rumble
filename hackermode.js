@@ -469,7 +469,7 @@ function calc_dist(bullet, color, posn, canon_posn) {
     console.log(bullet.className);
     var present = false;
     var box_size = document.querySelector('.box').offsetWidth;
-    box_size -= 3;
+    box_size += 2;
     var bullet = document.getElementById('bullet');
     var bullet_size = bullet.offsetWidth;
     if (bullet.className == "down" || bullet.className == "up") {

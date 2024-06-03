@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
 }
 
 body {
@@ -37,16 +36,15 @@ a {
 }
 
 h1 {
+    font-size: 70px;
+    font-family: fantasy;
     position: fixed;
     top: 50px;
-    /* Adjust this value as needed */
     width: 100%;
     text-align: center;
     background-color: antiquewhite;
-    /* Match the body background color or set another if you prefer */
     padding: 10px 0;
     z-index: 1000;
-    /* Ensure it stays on top of other content */
 }
 
 .card-container {
@@ -126,30 +124,11 @@ h1 {
     }
 }
 
-/* For large phones and tablets */
-@media (max-width: 768px) {
-    .card-container {
-        flex-direction: column;
-        margin-top: 150px;
-    }
-
-    .card {
-        width: 90%;
-        height: auto;
-    }
-
-    .card img {
-        height: auto;
-    }
-
-    h1 {
-        font-size: 22px;
-        top: 20px;
-    }
-}
-
-/* For small phones */
 @media (max-width: 480px) {
+    body {
+        flex-direction: column;
+    }
+
     .card {
         width: 90%;
         height: auto;

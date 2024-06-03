@@ -378,9 +378,10 @@ li {
         margin-bottom: 70px;
     }
 
-    .box {
-        width: 11vw;
-        height: 11vw;
+    ul {
+        gap: 1px;
+        grid-template-rows: repeat(8, 11vw);
+        grid-template-columns: repeat(8, 11vw);
     }
 
     .allimg {
@@ -388,7 +389,7 @@ li {
     }
 
     .paused-screen {
-        justify-content: flex-start;
+        justify-content: center;
         padding-top: 25%;
     }
 

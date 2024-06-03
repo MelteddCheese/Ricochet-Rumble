@@ -130,16 +130,16 @@ function placeBullet(color, c) {
     var box_size = document.querySelector('.box').offsetWidth;
     var bullet_size = bullet.offsetWidth;
     if (canonBox && bullet) {
-        canonBox.appendChild(bullet); // Append the bullet to the canon box
+        canonBox.appendChild(bullet);
         if (c === "r") {
-            bullet.style.top = (box_size - bullet_size) / 2 + 'px'; // Adjust this value if necessary
+            bullet.style.top = (box_size - bullet_size) / 2 + 'px';
             bullet.style.bottom = "";
         }
         else if (c === "b") {
-            bullet.style.bottom = (box_size - bullet_size) / 2 + 'px'; // Adjust this value if necessary
+            bullet.style.bottom = (box_size - bullet_size) / 2 + 'px';
             bullet.style.top = "";
         }
-        bullet.style.left = (box_size - bullet_size) / 2 + 'px'; // Center the bullet horizontally
+        bullet.style.left = (box_size - bullet_size) / 2 + 'px';
     } else {
         console.error("Canon box or bullet element not found.");
     }
@@ -831,8 +831,8 @@ class Timer {
 // Initialize timers for both sides
 const redDisplay = document.getElementById('r_timer');
 const blueDisplay = document.getElementById('b_timer');
-const redTimer = new Timer(1, redDisplay);
-const blueTimer = new Timer(1, blueDisplay);
+const redTimer = new Timer(5, redDisplay);
+const blueTimer = new Timer(5, blueDisplay);
 
 // Update the displays initially
 redTimer.updateDisplay();

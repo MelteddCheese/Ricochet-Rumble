@@ -408,7 +408,7 @@ li {
     }
 
     .paused-screen {
-        justify-content: flex-start;
+        justify-content: center;
         padding-top: 25%;
     }
 
