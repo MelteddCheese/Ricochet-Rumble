@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="hackermode++.css">
+
+    <title>RICOCHET RUMBLE HACKERMODE</title>
+</head>
+
+
+<body>
+    <h2 id="tog">BLUE'S TURN</h2>
+
+    <div id="gameOverScreen" style="display: none;">
+        <h1>Game Over</h1>
+        <p id="loseMessage"></p>
+        <div id="buttonContainer">
+            <button id="replayButton">Replay</button>
+            <button id="regameButton">ReGame</button>
+        </div>
+    </div>
+
+    <div id="showHistoryScreen" style="display:none,">
+        <h1>HISTORY</h1>
+        <p id="historyDisplay"></p>
+        <div id="buttonContainer_close">
+            <button id="closeButton">Close</button>
+        </div>
+    </div>
+
+    <div id="timerContainer">
+        <div class="timerWrapper">
+            <div class="label blue">Blue</div>
+            <div id="b_timer" class="timer"></div>
+        </div>
+        <img src="./resources/timer.png" alt="Timer Image" id="Timer_image">
+        <div class="timerWrapper">
+            <div class="label red">Red</div>
+            <div id="r_timer" class="timer"></div>
+        </div>
+    </div>
+
+    <div id="optionsBar">
+        <button id="pauseButton">Pause</button>
+        <button id="resetButton">Reset</button>
+        <button id="undoButton">Undo</button>
+        <button id="redoButton">Redo</button>
+        <button id="history">History</button>
+    </div>
+
+    <div id="pausedScreen" class="paused-screen">
+        <div class="paused-message">Game Paused</div>
+        <button id="playButtonPaused">Play</button>
+    </div>
+
+    <div class="game-container">
+        <div class="spells">
+            <p>BLUE</p>
+            <img id='b_invisible' src="./resources/invisible.png" alt="Spell 1" class="spell-image spell-1">
+            <img id='b_teleport' src="./resources/teleport.png" alt="Spell 2" class="spell-image spell-2">
+            <img id='b_protect' src="./resources/protect.png" alt="Spell 3" class="spell-image spell-3">
+        </div>
+        <ul>
+            <li class="box" id="b81"></li>
+            <li class="box" id="b82"></li>
+            <li class="box" id="b83"></li>
+            <li class="box" id="b84"></li>
+            <li class="box" id="b85"></li>
+            <li class="box" id="b86"></li>
+            <li class="box" id="b87"></li>
+            <li class="box" id="b88"></li>
+
+
+            <li class="box" id="b71"></li>
+            <li class="box" id="b72"></li>
+            <li class="box" id="b73"></li>
+            <li class="box" id="b74"></li>
+            <li class="box" id="b75"></li>
+            <li class="box" id="b76"></li>
+            <li class="box" id="b77"></li>
+            <li class="box" id="b78"></li>
+
+
+            <li class="box" id="b61"></li>
+            <li class="box" id="b62"></li>
+            <li class="box" id="b63"></li>
+            <li class="box" id="b64"></li>
+            <li class="box" id="b65"></li>
+            <li class="box" id="b66"></li>
+            <li class="box" id="b67"></li>
+            <li class="box" id="b68"></li>
+
+
+            <li class="box" id="b51"></li>
+            <li class="box" id="b52"></li>
+            <li class="box" id="b53"></li>
+            <li class="box" id="b54"></li>
+            <li class="box" id="b55"></li>
+            <li class="box" id="b56"></li>
+            <li class="box" id="b57"></li>
+            <li class="box" id="b58"></li>
+
+
+            <li class="box" id="b41"></li>
+            <li class="box" id="b42"></li>
+            <li class="box" id="b43"></li>
+            <li class="box" id="b44"></li>
+            <li class="box" id="b45"></li>
+            <li class="box" id="b46"></li>
+            <li class="box" id="b47"></li>
+            <li class="box" id="b48"></li>
+
+
+            <li class="box" id="b31"></li>
+            <li class="box" id="b32"></li>
+            <li class="box" id="b33"></li>
+            <li class="box" id="b34"></li>
+            <li class="box" id="b35"></li>
+            <li class="box" id="b36"></li>
+            <li class="box" id="b37"></li>
+            <li class="box" id="b38"></li>
+
+
+
+            <li class="box" id="b21"></li>
+            <li class="box" id="b22"></li>
+            <li class="box" id="b23"></li>
+            <li class="box" id="b24"></li>
+            <li class="box" id="b25"></li>
+            <li class="box" id="b26"></li>
+            <li class="box" id="b27"></li>
+            <li class="box" id="b28"></li>
+
+
+            <li class="box" id="b11"></li>
+            <li class="box" id="b12"></li>
+            <li class="box" id="b13"></li>
+            <li class="box" id="b14"></li>
+            <li class="box" id="b15"></li>
+            <li class="box" id="b16"></li>
+            <li class="box" id="b17"></li>
+            <li class="box" id="b18"></li>
+        </ul>
+        <div class="spells">
+            <p>RED</p>
+            <img id='r_invisible' src="./resources/invisible.png" alt="Spell 1" class="spell-image spell-1">
+            <img id='r_teleport' src="./resources/teleport.png" alt="Spell 2" class="spell-image spell-2">
+            <img id='r_protect' src="./resources/protect.png" alt="Spell 3" class="spell-image spell-3">
+        </div>
+    </div>
+
+    <div id="bullet">
+        <div class="arrow"><img id="arrow_img" src="./resources/arrow.png" alt=""></div>
+    </div>
+
+    <div id="rotate">
+        <button id="left-turn">Turn Left</button>
+        <button id="right-turn">Turn Right</button>
+        <button id="swap">SWAP</button>
+    </div>
+    <script src="hackermode++.js"></script>
+</body>
+
+<script>
+
+</script>
+
+</html>

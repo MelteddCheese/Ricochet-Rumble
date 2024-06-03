@@ -1,0 +1,433 @@
+* {
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url('./resources/hm.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: grid;
+    place-items: center;
+    overflow-x: hidden;
+}
+
+ul {
+    display: grid;
+    grid-template-rows: repeat(8, 75px);
+    grid-template-columns: repeat(8, 75px);
+    gap: 2px;
+}
+
+
+li {
+    list-style: none;
+    display: grid;
+    place-items: center;
+    font-size: 0px;
+    position: relative;
+}
+
+
+.box {
+    margin: 0px;
+    width: 75px;
+    height: 75px;
+}
+
+#tog {
+    color: #2C30D1;
+    margin-top: 10px;
+    margin-bottom: 0 px;
+}
+
+.allimg {
+    width: 65px;
+    position: relative;
+    bottom: 5px;
+}
+
+#rotate {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    visibility: hidden;
+}
+
+#rotate button {
+    background-color: #0c7c1e;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#rotate button:hover {
+    background-color: #8fdd9a;
+}
+
+#swap {
+    background: linear-gradient(45deg, #ff6ec4, #7873f5);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#swap:hover {
+    background: linear-gradient(45deg, #7873f5, #ff6ec4);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+#swap.hidden {
+    display: none;
+}
+
+#swap.show {
+    display: inline-block;
+    transform: scale(1.1);
+}
+
+#bullet {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.arrow {
+    width: 5px;
+    height: 5px;
+    position: absolute;
+}
+
+#arrow_img {
+    width: 30px;
+}
+
+
+#bullet.hidden,
+#bullet.hidden .arrow {
+    visibility: hidden;
+}
+
+#bullet.up .arrow {
+    transform: rotate(0deg);
+    top: -11px;
+    left: -5.5px;
+}
+
+#bullet.down .arrow {
+    transform: rotate(180deg);
+    top: 27px;
+    left: 20px;
+}
+
+#bullet.left .arrow {
+    transform: rotate(-90deg);
+    bottom: -2.6px;
+    left: -10px;
+}
+
+#bullet.right .arrow {
+    transform: rotate(90deg);
+    top: -5px;
+    left: 25px;
+
+}
+
+
+#showHistoryScreen {
+    position: fixed;
+    top: 5vh;
+    bottom: 5vh;
+    max-height: 90vh;
+    overflow-y: auto;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#showHistoryScreen h1 {
+    margin-top: 0;
+}
+
+#historyDisplay {
+    line-height: 1.6;
+    font-size: 30px;
+    padding: 10px;
+    max-width: 90%;
+    overflow-wrap: break-word;
+}
+
+#buttonContainer_close {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#closeButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#closeButton:hover {
+    background-color: #45a049;
+}
+
+#gameOverScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#gameOverScreen h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+#loseMessage {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+#buttonContainer {
+    display: inline-flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#replayButton,
+#regameButton {
+    background-color: #4CAF50;
+    height: fit-content;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#replayButton:hover,
+#regameButton:hover {
+    background-color: #45a049;
+}
+
+#timerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(238, 237, 235);
+    margin-top: 5px;
+    visibility: visible;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.timerWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.label {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.blue {
+    color: blue;
+}
+
+.red {
+    color: red;
+}
+
+.timer {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+#Timer_image {
+    width: 50px;
+    height: 50px;
+    margin: 0 20px;
+}
+
+
+#optionsBar {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    visibility: visible;
+}
+
+#optionsBar button {
+    background-color: #0c7c1e;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#optionsBar button:hover {
+    background-color: #8fdd9a;
+}
+
+#playButtonPaused {
+    background-color: #0c7c1e;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 25px;
+    margin: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#playButtonPaused:hover {
+    background-color: #8fdd9a;
+}
+
+.paused-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.paused-message {
+    font-size: 40px;
+    color: white;
+    text-align: center;
+}
+
+@media (max-width: 650px) {
+    #tog {
+        margin-bottom: 70px;
+    }
+
+    .box {
+        width: 11vw;
+        height: 11vw;
+    }
+
+    .allimg {
+        width: 10vw;
+    }
+
+    .paused-screen {
+        justify-content: flex-start;
+        padding-top: 25%;
+    }
+
+    .paused-message {
+        font-size: 20px;
+        padding: 0 10px;
+    }
+
+    #timerContainer {
+        padding: 10px;
+    }
+
+    .timerWrapper {
+        margin: 0 10px;
+    }
+
+    .label {
+        font-size: 1.2em;
+    }
+
+    .timer {
+        font-size: 1.5em;
+    }
+
+    #Timer_image {
+        width: 40px;
+        height: 40px;
+        margin: 0 10px;
+    }
+
+    #gameOverScreen h1 {
+        font-size: 2em;
+    }
+
+    #loseMessage {
+        font-size: 1.2em;
+    }
+
+    #replayButton {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+}
