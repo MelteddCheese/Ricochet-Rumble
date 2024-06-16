@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
     blueTimer.updateDisplay();
 });
 
-var movement_sound = new Track_sound("./move.wav");
-var vanish_sound = new Track_sound("./vanishing.mp3");
-var game_sound = new Track_sound("./game theme loop.wav");
+var movement_sound = new Track_sound("./resources/move.wav");
+var vanish_sound = new Track_sound("./resources/vanishing.mp3");
+var game_sound = new Track_sound("./resources/game theme loop.wav");
 
 function Track_sound(src) {
     this.sound = document.createElement("audio");

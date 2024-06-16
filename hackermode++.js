@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
     blueTimer.updateDisplay();
 });
 
-var movement_sound = new Track_sound("./move.wav");
-var vanish_sound = new Track_sound("./vanishing.mp3");
-var game_sound = new Track_sound("./game theme loop.wav");
+var movement_sound = new Track_sound("./resources/move.wav");
+var vanish_sound = new Track_sound("./resources/vanishing.mp3");
+var game_sound = new Track_sound("./resources/game theme loop.wav");
 
 function Track_sound(src) {
     this.sound = document.createElement("audio");
@@ -51,6 +51,7 @@ let b_spells = [];
 let red_spells = [];
 let blue_spells = [];
 function generateRandomPositions() {
+    initial_posn = [];
     const boardSize = 8;
     const ids = new Set();
 
@@ -769,6 +770,11 @@ function removeTitanImage(boxId) {
         if (img) {
             img.remove();
             console.log(`Removed titan image from ${boxId}`);
+            const spells = document.querySelectorAll('.spell');
+            spells.forEach(spell => {
+                spell.style.visibility = 'hidden';
+                console.log(spell.style.visibility);
+            });
         } else {
             console.log(`No image found in ${boxId}`);
         }
@@ -838,6 +844,25 @@ const blueTimer = new Timer(5, blueDisplay);
 redTimer.updateDisplay();
 blueTimer.updateDisplay();
 
+document.getElementById('spellss').addEventListener('click', function () {
+    isPaused = true;
+    redTimer.pause();
+    blueTimer.pause();
+    console.log("overlay is clicked");
+    document.getElementById('overlay').style.display = 'flex';
+});
+
+document.getElementById('closeButtonSpell').addEventListener('click', function () {
+    isPaused = false;
+    if (currentPlayer == 'r') {
+        redTimer.start();
+    }
+    else if (currentPlayer == 'b') {
+        blueTimer.start();
+    }
+    document.getElementById('overlay').style.display = 'none';
+});
+
 let isPaused = false;
 
 document.getElementById("pauseButton").addEventListener("click", function () {
@@ -845,13 +870,6 @@ document.getElementById("pauseButton").addEventListener("click", function () {
     redTimer.pause();
     blueTimer.pause();
     game_sound.stop();
-    // if (currentPlayer == 'r') {
-    //     redTimer.pause();
-    //     //blueTimer.pause();
-    // }
-    // else if (currentPlayer == 'b') {
-    //     blueTimer.pause();
-    // }
     document.getElementById("pausedScreen").style.display = "flex"; // Show the paused screen
 });
 
@@ -984,9 +1002,9 @@ document.getElementById("undoButton").addEventListener("click", function () {
             document.getElementById(arr[4]).innerHTML = arr[3];
         }
         if (Number.isInteger(arr[1])) {
-
-            document.getElementById(arr[0]).style.transform = `rotate(${-(arr[1] - arr[2])}deg)`;//arr[2]=initial_rotation
-            console.log(document.getElementById(arr[0]).style.transform);
+            let img = document.getElementById(arr[0]).querySelector('img');
+            img.style.transform = `rotate(${(arr[2])}deg)`;//arr[2]=initial_rotation
+            //console.log(document.getElementById(arr[0]).style.transform);
         }
         else if (arr[0] == 0) {
             let store = document.getElementById(arr[1]).innerHTML;
@@ -1135,7 +1153,8 @@ document.getElementById("redoButton").addEventListener("click", function () {
         let rem_arr = redo_arr[0];
         if (Number.isInteger(rem_arr[1][1])) {  //rotation
             if (document.getElementById(rem_arr[1][0]).innerHTML !== '') {
-                document.getElementById(rem_arr[1][0]).style.transform = `rotate(${rem_arr[1][1] - rem_arr[1][2]}deg)`;
+                let img = document.getElementById(rem_arr[1][0]).querySelector('img');
+                img.style.transform = `rotate(${rem_arr[1][1]}deg)`;
             }
         }
         else if (rem_arr[1][0] == 0) {  //swap
@@ -1220,19 +1239,36 @@ document.getElementById("closeButton").addEventListener("click", function () {
 })
 
 document.getElementById('replayButton').addEventListener("click", function () {
+    b_invisible = false;
+    r_invisible = false;
+    r_teleport = false;
+    b_teleport = false;
+    r_protect = false;
+    b_protect = false;
+    invisible_ele = '';
+    r_destroy = 0;
+    b_destroy = 0;
+    r_hit = 0;
+    b_hit = 0;
     const gameOverScreen = document.getElementById('gameOverScreen');
     gameOverScreen.style.display = 'none';
     console.log(gameOverScreen.style.display);
     past_game = localStorage.getItem('evtg_arr');
     document.getElementById('timerContainer').style.visibility = 'hidden';
     document.getElementById('optionsBar').style.visibility = 'hidden';
+    const spells = this.querySelectorAll('.spells');
+    spells.forEach(spell => {
+        spell.style.visibility = 'hidden';
+        console.log(spell.style.visibility);
+    });
+    // document.getElementById('spells').style.visibility = 'hidden';
 
     document.querySelectorAll('.box').forEach((box) => {
         var bullet1 = box.querySelector('#bullet');
-        //console.log(bullet1);
         if (bullet1) {
             console.log('Box with bullet found:', box.id);
         }
+        box.classList.remove('invisible');
         box.innerHTML = '';
         box.style.cursor = '';
     });
@@ -1245,55 +1281,129 @@ document.getElementById('replayButton').addEventListener("click", function () {
     });
     resetBoxColors();
     console.log(gameOverScreen.style.display);
+
+    // if (past_game) {
+    //     let pastgame_arr = JSON.parse(past_game);
+    //     var i = 0;
+    //     let moves = pastgame_arr.length;
+    //     makeMovement();
+    //     function makeMovement() {
+    //         let done = false;
+    //         if (pastgame_arr[i][2] !== 0) {
+    //             document.getElementById(pastgame_arr[i][2]).classList.add('invisible');
+    //         }
+    //         if (pastgame_arr[i][3] !== 0) {
+    //             document.getElementById(pastgame_arr[i][3][2]).innerHTML = pastgame_arr[i][3][0];
+    //             document.getElementById(pastgame_arr[i][3][1]).innerHTML = '';
+    //         }
+    //         if (i > 0) {
+    //             if (pastgame_arr[i - 1][2]) {
+    //                 document.getElementById(pastgame_arr[i - 1][2]).classList.remove('invisible');
+    //             }
+    //         }
+    //         if (Number.isInteger(pastgame_arr[i][1][1])) {
+    //             document.getElementById(pastgame_arr[i][1][0]).style.transform = `rotate(${(pastgame_arr[i][1][1] - pastgame_arr[i][1][2])}deg)`;//arr[2]=initial_rotation
+    //             done = true;
+    //         }
+    //         else if (pastgame_arr[i][1][0] == 0) {
+    //             let store = document.getElementById(pastgame_arr[i][1][1]).innerHTML;
+    //             document.getElementById(pastgame_arr[i][1][1]).innerHTML = document.getElementById(pastgame_arr[i][1][2]).innerHTML;
+    //             document.getElementById(pastgame_arr[i][1][2]).innerHTML = store;
+    //             done = true;
+    //         }
+    //         else {
+    //             document.getElementById(pastgame_arr[i][1][1]).innerHTML = '';
+    //             document.getElementById(pastgame_arr[i][1][2]).innerHTML = pastgame_arr[i][1][0];
+    //             done = true;
+    //         }
+    //         if (done) {
+    //             if (i % 2 == 0) {
+    //                 placeBullet("blue", "b");
+    //                 fireBullet("b");
+    //             }
+    //             else if (i % 2 == 1) {
+    //                 placeBullet("red", "r");
+    //                 fireBullet("r");
+    //             }
+    //             i++;
+    //             if (i < moves) {
+    //                 setTimeout(makeMovement, 4000);
+    //             }
+    //             else if (i == moves) {
+    //                 const bullet = document.getElementById('bullet');
+    //                 bullet.style.visibility = 'hidden';
+    //             }
+    //         }
+    //     }
+    // }
     if (past_game) {
         let pastgame_arr = JSON.parse(past_game);
         let i = 0;
         let moves = pastgame_arr.length;
-        const replay_vid = setInterval(() => {
-            if (pastgame_arr[i][2] !== 0) {
-                document.getElementById(pastgame_arr[i][2]).classList.add('invisible');
+
+        const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+        const handleMovement = async (move) => {
+            // Movement logic
+            if (move[2] !== 0) {
+                document.getElementById(move[2]).classList.add('invisible');
             }
-            if (pastgame_arr[i][3] !== 0) {
-                document.getElementById(pastgame_arr[i][3][2]).innerHTML = pastgame_arr[i][3][0];
-                document.getElementById(pastgame_arr[i][3][1]).innerHTML = '';
+            if (move[3] !== 0) {
+                document.getElementById(move[3][2]).innerHTML = move[3][0];
+                document.getElementById(move[3][1]).innerHTML = '';
             }
             if (i > 0) {
                 if (pastgame_arr[i - 1][2]) {
                     document.getElementById(pastgame_arr[i - 1][2]).classList.remove('invisible');
                 }
             }
-            if (Number.isInteger(pastgame_arr[i][1][1])) {
-                document.getElementById(pastgame_arr[i][1][0]).style.transform = `rotate(${-(pastgame_arr[i][1][1] - pastgame_arr[i][1][2])}deg)`;//arr[2]=initial_rotation
+            if (Number.isInteger(move[1][1])) {
+                let img = document.getElementById(move[1][0]).querySelector('img');
+                img.style.transform = `rotate(${(move[1][1])}deg)`; //arr[2]=initial_rotation
+            } else if (move[1][0] == 0) {
+                let store = document.getElementById(move[1][1]).innerHTML;
+                document.getElementById(move[1][1]).innerHTML = document.getElementById(move[1][2]).innerHTML;
+                document.getElementById(move[1][2]).innerHTML = store;
+            } else {
+                document.getElementById(move[1][1]).innerHTML = '';
+                document.getElementById(move[1][2]).innerHTML = move[1][0];
             }
-            else if (pastgame_arr[i][1][0] == 0) {
-                let store = document.getElementById(pastgame_arr[i][1][1]).innerHTML;
-                document.getElementById(pastgame_arr[i][1][1]).innerHTML = document.getElementById(pastgame_arr[i][1][2]).innerHTML;
-                document.getElementById(pastgame_arr[i][1][2]).innerHTML = store;
-            }
-            else {
-                document.getElementById(pastgame_arr[i][1][1]).innerHTML = '';
-                document.getElementById(pastgame_arr[i][1][2]).innerHTML = pastgame_arr[i][1][0];
-            }
+        };
+
+        const fireBulletAfterDelay = async (i) => {
+            await delay(2000); // Wait 2 seconds for bullet firing
+            console.log(`Bullet firing phase ${i}`);
             if (i % 2 == 0) {
                 placeBullet("blue", "b");
                 fireBullet("b");
-            }
-            else {
+                i++;
+            } else {
                 placeBullet("red", "r");
                 fireBullet("r");
+                i++;
             }
-            i++;
-            if (i == moves) {
-                clearInterval(replay_vid);
-                // const gameOverScreen = document.getElementById('gameOverScreen');
-                // gameOverScreen.style.display = 'flex';
+        };
+
+        const replay = async () => {
+            while (i < moves) {
+                console.log(`Movement phase ${i}`);
+
+                await handleMovement(pastgame_arr[i]);
+                await fireBulletAfterDelay(i);
+
+
+                await delay(2000); // Wait another 2 seconds before next movement
             }
-        }, 4000)
+
+            const bullet = document.getElementById('bullet');
+            bullet.style.visibility = 'hidden';
+        };
+
+        replay();
     } else {
         console.log('No data found in local storage.');
     }
-    // //const gameOverScreen = document.getElementById('gameOverScreen');
-    // gameOverScreen.style.display = 'flex';
+
 })
 
 document.getElementById("regameButton").addEventListener("click", function () {
@@ -1322,13 +1432,6 @@ function resetGame() {
         box.innerHTML = '';
         box.style.cursor = '';
     });
-
-    // initial_posn.forEach(([element_name, position_id, innerHTML]) => {
-    //     const box = document.getElementById(position_id);
-    //     box.innerText = element_name;
-    //     box.innerHTML = innerHTML; // Restore the initial innerHTML
-    //     box.style.cursor = 'pointer';
-    // });
 
     generateRandomPositions();
     resetBoxColors();
@@ -1438,6 +1541,7 @@ function showPossibleMoves(item) {
                 var newRotation = currentRotation + 90;
 
                 img.style.transform = `rotate(${newRotation}deg)`;
+                movement_sound.play();
                 //document.getElementById('rotate').style.visibility = 'hidden';
                 //console.log(img.style.transform);
                 resetBoxColors();
@@ -1489,6 +1593,7 @@ function showPossibleMoves(item) {
                     : 0;
                 var newRotation = currentRotation - 90;
                 img.style.transform = `rotate(${newRotation}deg)`;
+                movement_sound.play();
                 document.getElementById('rotate').style.visibility = 'hidden';
                 console.log(img.style.transform);
                 resetBoxColors();
@@ -1648,6 +1753,7 @@ function setupBoxClickListeners() {
                     }
                     let store = document.getElementById(clickedId).innerHTML;
                     document.getElementById(clickedId).innerHTML = item2.innerHTML;
+                    movement_sound.play();
                     item2.innerHTML = store;
                     console.log('elements swapped');
                     resetBoxColors();
@@ -1732,6 +1838,7 @@ function setupBoxClickListeners() {
                         }
                         document.getElementById('rotate').style.visibility = 'hidden';
                         document.getElementById(clickedId).innerHTML = '';
+                        movement_sound.play();
                         item2.innerHTML = clickedcontent;
                         resetBoxColors();
                         state = true;
@@ -1801,3 +1908,113 @@ document.getElementById('b_teleport').addEventListener('click', () => {
     }
 })
 
+
+if (past_game) {
+    let pastgame_arr = JSON.parse(past_game);
+    let i = 0;
+    let moves = pastgame_arr.length;
+
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+    const replay = async () => {
+        while (i < moves) {
+            // Movement logic
+            if (pastgame_arr[i][2] !== 0) {
+                document.getElementById(pastgame_arr[i][2]).classList.add('invisible');
+            }
+            if (pastgame_arr[i][3] !== 0) {
+                document.getElementById(pastgame_arr[i][3][2]).innerHTML = pastgame_arr[i][3][0];
+                document.getElementById(pastgame_arr[i][3][1]).innerHTML = '';
+            }
+            if (i > 0) {
+                if (pastgame_arr[i - 1][2]) {
+                    document.getElementById(pastgame_arr[i - 1][2]).classList.remove('invisible');
+                }
+            }
+            if (Number.isInteger(pastgame_arr[i][1][1])) {
+                document.getElementById(pastgame_arr[i][1][0]).style.transform = `rotate(${(pastgame_arr[i][1][1] - pastgame_arr[i][1][2])}deg)`; //arr[2]=initial_rotation
+            } else if (pastgame_arr[i][1][0] == 0) {
+                let store = document.getElementById(pastgame_arr[i][1][1]).innerHTML;
+                document.getElementById(pastgame_arr[i][1][1]).innerHTML = document.getElementById(pastgame_arr[i][1][2]).innerHTML;
+                document.getElementById(pastgame_arr[i][1][2]).innerHTML = store;
+            } else {
+                document.getElementById(pastgame_arr[i][1][1]).innerHTML = '';
+                document.getElementById(pastgame_arr[i][1][2]).innerHTML = pastgame_arr[i][1][0];
+            }
+
+            console.log(`Movement phase ${i}`);
+
+            // Delay bullet logic to ensure movement happens first
+            await delay(2000); // Wait 2 seconds for bullet firing
+
+            console.log(`Bullet firing phase ${i}`);
+            if (i % 2 == 0) {
+                placeBullet("blue", "b");
+                fireBullet("b");
+            } else {
+                placeBullet("red", "r");
+                fireBullet("r");
+            }
+
+            i++;
+            await delay(2000); // Wait another 2 seconds before next movement
+        }
+
+        const bullet = document.getElementById('bullet');
+        bullet.style.visibility = 'hidden';
+    };
+
+    replay();
+}
+
+// if (past_game) {
+//     let pastgame_arr = JSON.parse(past_game);
+//     let i = 0;
+//     let moves = pastgame_arr.length;
+
+//     const replay_vid = setInterval(() => {
+//         if (i < moves) {
+//             // Movement logic
+//             if (pastgame_arr[i][2] !== 0) {
+//                 document.getElementById(pastgame_arr[i][2]).classList.add('invisible');
+//             }
+//             if (pastgame_arr[i][3] !== 0) {
+//                 document.getElementById(pastgame_arr[i][3][2]).innerHTML = pastgame_arr[i][3][0];
+//                 document.getElementById(pastgame_arr[i][3][1]).innerHTML = '';
+//             }
+//             if (i > 0) {
+//                 if (pastgame_arr[i - 1][2]) {
+//                     document.getElementById(pastgame_arr[i - 1][2]).classList.remove('invisible');
+//                 }
+//             }
+//             if (Number.isInteger(pastgame_arr[i][1][1])) {
+//                 document.getElementById(pastgame_arr[i][1][0]).style.transform = `rotate(${(pastgame_arr[i][1][1] - pastgame_arr[i][1][2])}deg)`; //arr[2]=initial_rotation
+//             } else if (pastgame_arr[i][1][0] == 0) {
+//                 let store = document.getElementById(pastgame_arr[i][1][1]).innerHTML;
+//                 document.getElementById(pastgame_arr[i][1][1]).innerHTML = document.getElementById(pastgame_arr[i][1][2]).innerHTML;
+//                 document.getElementById(pastgame_arr[i][1][2]).innerHTML = store;
+//             } else {
+//                 document.getElementById(pastgame_arr[i][1][1]).innerHTML = '';
+//                 document.getElementById(pastgame_arr[i][1][2]).innerHTML = pastgame_arr[i][1][0];
+//             }
+
+//             // Bullet logic executed 2 seconds after movement
+//             setTimeout(() => {
+//                 if (i % 2 == 0) {
+//                     placeBullet("blue", "b");
+//                     fireBullet("b");
+//                 } else if (i % 2 == 1) {
+//                     placeBullet("red", "r");
+//                     fireBullet("r");
+//                 }
+//             }, 2000); // 2 seconds delay for bullet firing
+
+//             i++;
+//         } else {
+//             clearInterval(replay_vid);
+//             const bullet = document.getElementById('bullet');
+//             bullet.style.visibility = 'hidden';
+//         }
+//     }, 4000);
+
+// 4 seconds interval

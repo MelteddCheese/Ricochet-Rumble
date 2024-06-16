@@ -21,15 +21,37 @@ body {
 }
 
 .spells {
+    background-color: #faf4ff;
+    /* Unique background color for the spells div */
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 20px;
+    padding: 10px;
+    border: 2px solid #8e44ad;
+    border-radius: 15px;
+    box-shadow: 0 0 10px #8e44ad, 0 0 20px #9b59b6, 0 0 30px #8e44ad;
+}
+
+.spells_blue {
+    font-size: 1.5vw;
+    color: #2C30D1;
+    margin: 0;
+    padding: 5px 0;
+    font-family: fantasy;
+}
+
+.spells_red {
+    font-size: 1.5vw;
+    color: #E00707;
+    margin: 0;
+    padding: 5px 0;
+    font-family: fantasy;
 }
 
 .spell-image {
     width: 3vw;
-    margin: 1vw;
+    margin: 0.5vw;
     filter: grayscale(100%);
     opacity: 0.5;
     transition: filter 0.3s, opacity 0.3s;
@@ -58,6 +80,15 @@ li {
     position: relative;
 }
 
+#togContainer {
+    background-color: rgb(241, 241, 241);
+    border-radius: 20px;
+    padding: 10px;
+    width: fit-content;
+    margin: auto;
+    margin-top: 5px;
+    box-shadow: 0 4px 8px rgba(96, 22, 200, 0.1);
+}
 
 #tog {
     color: #2C30D1;
@@ -392,9 +423,66 @@ li {
     text-align: center;
 }
 
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.overlay-content {
+    background-color: #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.segment {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2vw;
+    font-family: cursive;
+}
+
+.segment img {
+    width: 50px;
+    height: 50px;
+}
+
+.close-btn {
+    align-self: flex-end;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+
 @media (max-width: 650px) {
+    body {
+        background-size: cover;
+    }
+
     #tog {
-        margin-bottom: 70px;
+        margin-bottom: 7px;
+    }
+
+    #togContainer {
+        padding: 5px;
+        border-radius: 5px;
     }
 
     ul {
@@ -407,13 +495,30 @@ li {
         width: 10vw;
     }
 
+    .segment {
+        font-size: 3vw;
+    }
+
+    .spells_blue {
+        font-size: 3vw;
+    }
+
+    .spells_red {
+        font-size: 3vw;
+    }
+
+    .spell-image {
+        width: 6vw;
+        margin: 1vw 0;
+    }
+
     .paused-screen {
         justify-content: center;
         padding-top: 25%;
     }
 
     .paused-message {
-        font-size: 20px;
+        font-size: 10vw;
         padding: 0 10px;
     }
 

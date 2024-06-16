@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
     blueTimer.updateDisplay();
 });
 
-var movement_sound = new Track_sound("./move.wav");
-var vanish_sound = new Track_sound("./vanishing.mp3");
-var game_sound = new Track_sound("./game theme loop.wav");
+var movement_sound = new Track_sound("./resources/move.wav");
+var vanish_sound = new Track_sound("./resources/vanishing.mp3");
+var game_sound = new Track_sound("./resources/game theme loop.wav");
 
 function Track_sound(src) {
     this.sound = document.createElement("audio");
@@ -144,6 +144,7 @@ function showPossibleMoves(item) {
                 var newRotation = currentRotation + 90;
 
                 img.style.transform = `rotate(${newRotation}deg)`;
+                movement_sound.play();
                 resetBoxColors();
                 buttonR.removeEventListener('click', rotateRight);
                 buttonL.removeEventListener('click', rotateLeft);
@@ -179,6 +180,7 @@ function showPossibleMoves(item) {
                     : 0;
                 var newRotation = currentRotation - 90;
                 img.style.transform = `rotate(${newRotation}deg)`;
+                movement_sound.play();
                 document.getElementById('rotate').style.visibility = 'hidden';
                 console.log(img.style.transform);
                 resetBoxColors();
@@ -262,6 +264,7 @@ function setupBoxClickListeners() {
                     let store = document.getElementById(clickedId).innerHTML;
                     document.getElementById(clickedId).innerHTML = item2.innerHTML;
                     item2.innerHTML = store;
+                    movement_sound.play();
                     console.log('elements swapped');
                     resetBoxColors();
                     state = true;
@@ -310,6 +313,7 @@ function setupBoxClickListeners() {
                     document.getElementById('rotate').style.visibility = 'hidden';
                     document.getElementById(clickedId).innerHTML = '';
                     item2.innerHTML = clickedcontent;
+                    movement_sound.play();
                     resetBoxColors();
                     state = true;
                     // placeBullet();
@@ -950,7 +954,8 @@ document.getElementById("undoButton").addEventListener("click", function () {
             document.getElementById(arr[4]).innerHTML = arr[3];
         }
         if (Number.isInteger(arr[1])) {
-            document.getElementById(arr[0]).style.transform = `rotate(${-(arr[1] - arr[2])}deg)`;//arr[2]=initial_rotation
+            let img = document.getElementById(arr[0]).querySelector('img');
+            img.style.transform = `rotate(${(arr[2])}deg)`;//arr[2]=initial_rotation
         }
         else if (arr[0] == 0) {
             let store = document.getElementById(arr[1]).innerHTML;
@@ -992,7 +997,8 @@ document.getElementById("redoButton").addEventListener("click", function () {
         let rem_arr = redo_arr[0];
         if (Number.isInteger(rem_arr[1])) {
             if (document.getElementById(rem_arr[0]).innerHTML !== '') {
-                document.getElementById(rem_arr[0]).style.transform = `rotate(${rem_arr[1] - rem_arr[2]}deg)`;
+                let img = document.getElementById(rem_arr[0]).querySelector('img');
+                img.style.transform = `rotate(${rem_arr[1]}deg)`;
             }
         }
         else if (rem_arr[0] == 0) {

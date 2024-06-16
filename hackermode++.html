@@ -13,7 +13,9 @@
 
 
 <body>
-    <h2 id="tog">BLUE'S TURN</h2>
+    <div id="togContainer">
+        <h2 id="tog">BLUE'S TURN</h2>
+    </div>
 
     <div id="gameOverScreen" style="display: none;">
         <h1>Game Over</h1>
@@ -50,6 +52,7 @@
         <button id="undoButton">Undo</button>
         <button id="redoButton">Redo</button>
         <button id="history">History</button>
+        <button id="spellss">Spells</button>
     </div>
 
     <div id="pausedScreen" class="paused-screen">
@@ -57,9 +60,30 @@
         <button id="playButtonPaused">Play</button>
     </div>
 
+    <div class="overlay" id="overlay">
+        <div class="overlay-content">
+            <div class="segment">
+                <img src="./resources/invisible.png" alt="Spell 1">
+                <p><b>Invisible Spell:</b> Become invisible for a move.<br>Attained when a team's bullet makes more than
+                    3 deflections</p>
+            </div>
+            <div class="segment">
+                <img src="./resources/teleport.png" alt="Spell 2">
+                <p><b>Teleport Spell:</b> Instantly teleport to a different location.<br>Attained when you destroy both
+                    of your opponent's semi ricochets</p>
+            </div>
+            <div class="segment">
+                <img src="./resources/protect.png" alt="Spell 3">
+                <p><b>Protect Spell:</b> Create a shield to block attacks.<br>Attained when you attack your opponent's
+                    tank for 3 times</p>
+            </div>
+            <button class="close-btn" id="closeButtonSpell">Close</button>
+        </div>
+    </div>
+
     <div class="game-container">
         <div class="spells">
-            <p>BLUE</p>
+            <p class="spells_blue">BLUE</p>
             <img id='b_invisible' src="./resources/invisible.png" alt="Spell 1" class="spell-image spell-1">
             <img id='b_teleport' src="./resources/teleport.png" alt="Spell 2" class="spell-image spell-2">
             <img id='b_protect' src="./resources/protect.png" alt="Spell 3" class="spell-image spell-3">
@@ -146,7 +170,7 @@
             <li class="box" id="b18"></li>
         </ul>
         <div class="spells">
-            <p>RED</p>
+            <p class="spells_red">RED</p>
             <img id='r_invisible' src="./resources/invisible.png" alt="Spell 1" class="spell-image spell-1">
             <img id='r_teleport' src="./resources/teleport.png" alt="Spell 2" class="spell-image spell-2">
             <img id='r_protect' src="./resources/protect.png" alt="Spell 3" class="spell-image spell-3">

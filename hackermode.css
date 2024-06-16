@@ -383,6 +383,11 @@ li {
         grid-template-columns: repeat(8, 11vw);
     }
 
+    .box {
+        width: 11vw;
+        height: 11vw;
+    }
+
     .allimg {
         width: 10vw;
     }
